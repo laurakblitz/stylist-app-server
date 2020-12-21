@@ -16,15 +16,19 @@ const User = db.define('user', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    admin: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-    }
+    role: {
+        type: DataTypes.ENUM('user', 'admin'),
+        defaultValue: 'user'
+    },
 });
 
 module.exports = User;
 
 
+// admin: {
+//     type: DataTypes.BOOLEAN,
+//     allowNull: true,
+// }
 
 
 // module.exports = (sequelize, DataTypes) => {
