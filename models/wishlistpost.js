@@ -1,7 +1,7 @@
 const { STRING } = require("sequelize/types");
 
 module.exports = (sequelize, DataTypes) => {
-    const WishlistPosts = sequelize.define('wishlistposts', {
+    const WishlistPost = sequelize.define('wishlistpost', {
         image: {
             type: DataTypes.BINARY-STRING,
             allowNull: false,
@@ -11,5 +11,5 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
     });
-    return WishlistPosts;
+    return WishlistPost;
 };

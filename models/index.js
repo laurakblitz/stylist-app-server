@@ -1,11 +1,11 @@
 const User = require('./user');
-const ClosetPosts = require('./closetposts');
-const WishlistPosts = require('./wishlistposts');
+const ClosetPost = require('./closetpost');
+const WishlistPost = require('./wishlistpost');
 
-User.hasMany(ClosetPosts)
+User.hasMany(ClosetPost)
 ClosetPosts.belongsTo(User)
 
-User.hasMany(WishlistPosts)
+User.hasMany(WishlistPost)
 WishlistPosts.belongsTo(User)
 
-module.exports = {User, ClosetPosts, WishlistPosts}
+module.exports = {User, ClosetPost, WishlistPost}
