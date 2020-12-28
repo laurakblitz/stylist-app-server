@@ -10,9 +10,9 @@ const fs = require('fs');
 const aws = require('aws-sdk');
 
 let s3 = new aws.S3({
-    accessKeyId: 'AKIA47XQ4SR2CPTWH3ZC',
-    secretAccessKey: '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',
-    Bucket: 'stylistappbucketlb'
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    Bucket: process.env.BUCKET
 });
 
 let upload = multer({
