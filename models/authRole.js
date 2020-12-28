@@ -5,16 +5,16 @@ const authRoles = function () {
     ac.grant('user')
         .readOwn('user')
         .updateOwn('user')
-        .createOwn('closetposts')
-        .createOwn('wishlistposts')
-        .updateOwn('closetposts')
-        .updateOwn('wishlistposts')
-        .deleteOwn('closetposts')
-        .deleteOwn('wishlistposts')
+        .createOwn('closet')
+        .createOwn('wishlist')
+        .updateOwn('closet')
+        .updateOwn('wishlist')
+        .deleteOwn('closet')
+        .deleteOwn('wishlist')
 
-        ac.grant('admin')
+    ac.grant('admin')
         .extend('user')
-        .updateAny('user')
+        .deleteAny('user')
 };
 
 module.exports = authRoles;

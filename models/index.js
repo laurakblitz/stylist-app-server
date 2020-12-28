@@ -1,11 +1,25 @@
+const sequelize = require("sequelize");
+
 const User = require('./user');
-const ClosetPost = require('./closetpost');
-const WishlistPost = require('./wishlistpost');
+const Closet = require('./closet');
+const Wishlist = require('./wishlist');
 
-User.hasMany(ClosetPost)
-ClosetPosts.belongsTo(User)
+User.hasMany(Closet, {
+    as: 'closets',
+    foreignKey: 'owner_id'
+});
 
-User.hasMany(WishlistPost)
-WishlistPosts.belongsTo(User)
+User.hasMany(Wishlist, {
+    as: 'wishlists',
+    foreignKey: 'owner_id'
+});
 
-module.exports = {User, ClosetPost, WishlistPost}
+Wishlist.belongsTo(User);
+Closet.belongsTo(User);
+
+module.exports = {User, Closet, Wishlist};
+
+// User.hasMany(Closet, {as:'Closet', foreignKey: 'owner_id'});
+// Closet.belongsTo(User);
+// User.hasMany(Wishlist, {as:'Wishlist', foreignKey: 'owner_id'});
+// Wishlist.belongsTo(User);

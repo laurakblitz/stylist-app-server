@@ -1,1 +1,49 @@
-//******************** (POST) Create a closet post ********************//
+const router = require('express').Router();
+const Closet = require('../models/closet');
+const validateSession = require('../middleware/validateSession');
+
+const multer = require('multer');
+const path = require('path');
+
+const multerS3 = require('multer-s3');
+const fs = require('fs');
+const aws = require('aws-sdk');
+
+let s3 = new aws.S3({
+    accessKeyId: 'AKIA47XQ4SR2CPTWH3ZC',
+    secretAccessKey: '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',
+    Bucket: 'stylistappbucketlb'
+});
+
+let upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'stylistappbucketlb',
+        metadata: function (req, file, cb) {
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+            cb(null, Date.now() + '-' + file.originalname)
+        }
+    })
+});
+
+router.post('/upload', validateSession, upload.single('image'), async (req, res) => {
+    try {
+        const {category} = req.body;
+
+        let newCloset = await Closet.create({category, owner_id: req.user.id});
+
+        res.status(200).json({
+            closet: newCloset,
+            message: "Success!"
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Failed to create post."
+        })
+    }
+});
+
+module.exports = router;
