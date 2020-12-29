@@ -28,22 +28,78 @@ let upload = multer({
     })
 });
 
-router.post('/upload', validateSession, upload.single('image'), async (req, res) => {
-    try {
-        const {category} = req.body;
-
-        let newCloset = await Closet.create({category, owner_id: req.user.id});
-
-        res.status(200).json({
-            closet: newCloset,
-            message: "Success!"
-        })
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "Failed to create post."
-        })
-    }
+// ******************** (POST) Create a closet post ******************** //
+router.post('/upload', validateSession, upload.single('image'), (req, res) => {
+    Closet.create({
+        location: req.file.location,
+        category: req.body.category,
+        owner_id: req.user.id
+    })
+        .then(closet => res.status(200).json({ closet }))
+        .catch(err => {
+            res.status(500).json({ error: err })
+            console.log(err);
+        });
 });
 
+// ******************** (GET) Get all closet posts ******************** //
+router.get('/allclosetposts', (req, res) => {
+
+    Closet.findAll({
+        where: { owner_id: req.user.id }
+    })
+        .then(closet => res.status(200).json({
+            closet: closet,
+            message: 'All Closet Posts Retrieved'
+        }))
+        .catch(err => res.status(500).json({
+            error: err
+        }))
+});
+
+// ******************** (PUT) Update closet post ******************** //
+router.put("/update/:id", validateSession, upload.single('image'), function (req, res) {
+    const updateCloset = {
+        location: req.file.location,
+        category: req.body.category,
+        owner_id: req.user.id
+    };
+
+    const query = { where: { id: req.params.id, owner_id: req.user.id } };
+
+    Closet.update(updateCloset, query)
+    .then((closet) => res.status(200).json(closet))
+    .catch((err) => res.status(500).json({ error: err })); 
+
+});
+
+// ******************** (DELETE) Delete closet post ******************** //
+router.delete("/delete/:id", validateSession, upload.single('image'), (req, res) => {
+    Closet.destroy({
+        where: { id: req.params.id, owner_id: req.user.id }
+    })
+        .then(closet => res.status(200).json(closet))
+        .catch(err => res.json({ error: err }))
+})
+
 module.exports = router;
+
+
+// // ******************** (POST) Create a closet post ******************** //
+// router.post('/upload', validateSession, upload.single('image'), async (req, res) => {
+//     try {
+//         const {category} = req.body;
+
+//         let newCloset = await Closet.create({category, owner_id: req.user.id});
+
+//         res.status(200).json({
+//             closet: newCloset,
+//             message: "Success!"
+//         })
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({
+//             message: "Failed to create post."
+//         })
+//     }
+// });

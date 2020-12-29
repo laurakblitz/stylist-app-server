@@ -18,8 +18,3 @@ Wishlist.belongsTo(User);
 Closet.belongsTo(User);
 
 module.exports = {User, Closet, Wishlist};
-
-// User.hasMany(Closet, {as:'Closet', foreignKey: 'owner_id'});
-// Closet.belongsTo(User);
-// User.hasMany(Wishlist, {as:'Wishlist', foreignKey: 'owner_id'});
-// Wishlist.belongsTo(User);

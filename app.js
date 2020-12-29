@@ -9,6 +9,8 @@ const user = require('./controllers/usercontroller');
 
 const closet = require('./controllers/closetcontroller');
 
+const wishlist = require('./controllers/wishlistcontroller');
+
 app.use(require('./middleware/headers'));
 
 app.use(express.json());
@@ -17,6 +19,7 @@ app.use('/user', user);
 
 const validateSession = require('./middleware/ValidateSession');
 app.use('/closet', validateSession, closet);
+app.use('/wishlist', validateSession, wishlist);
 
 db.authenticate()
     .then(() => db.sync()) // => {force: true}
