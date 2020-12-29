@@ -31,7 +31,7 @@ let upload = multer({
 // ******************** (POST) Create a wishlist ******************** //
 router.post('/upload', validateSession, upload.single('image'), (req, res) => {
     Wishlist.create({
-        location: req.file.location,
+        image: req.file.location,
         comment: req.body.comment,
         owner_id: req.user.id
     })
@@ -60,7 +60,7 @@ router.get('/allwishlist', (req, res)=>{
 // ******************** (PUT) Update wishlist ******************** //
 router.put("/update/:id", validateSession, upload.single('image'), function (req, res) {
     const updateWishlist = {
-        location: req.file.location,
+        image: req.file.location,
         comment: req.body.comment,
         owner_id: req.user.id
     };

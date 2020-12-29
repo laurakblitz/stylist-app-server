@@ -31,7 +31,7 @@ let upload = multer({
 // ******************** (POST) Create a closet post ******************** //
 router.post('/upload', validateSession, upload.single('image'), (req, res) => {
     Closet.create({
-        location: req.file.location,
+        image: req.file.location,
         category: req.body.category,
         owner_id: req.user.id
     })
@@ -60,7 +60,7 @@ router.get('/allclosetposts', (req, res) => {
 // ******************** (PUT) Update closet post ******************** //
 router.put("/update/:id", validateSession, upload.single('image'), function (req, res) {
     const updateCloset = {
-        location: req.file.location,
+        image: req.file.location,
         category: req.body.category,
         owner_id: req.user.id
     };

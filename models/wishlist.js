@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const db = require('../db');
 
 const Wishlist = db.define('wishlist', {
-    location: {
+    image: {
         type: DataTypes.STRING,
         allowNull: false
     },
