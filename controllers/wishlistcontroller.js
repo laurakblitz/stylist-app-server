@@ -3,16 +3,16 @@ const Wishlist = require('../models/wishlist');
 const validateSession = require('../middleware/validateSession');
 
 const multer = require('multer');
-const path = require('path');
+// const path = require('path');
 
 const multerS3 = require('multer-s3');
-const fs = require('fs');
+// const fs = require('fs');
 const aws = require('aws-sdk');
 
 let s3 = new aws.S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
     secretAccessKey: process.env.SECRET_ACCESS_KEY,
-    Bucket: process.env.BUCKET
+    bucket: process.env.BUCKET
 });
 
 let upload = multer({
@@ -33,7 +33,7 @@ router.post('/upload', validateSession, upload.single('image'), (req, res) => {
     Wishlist.create({
         image: req.file.location,
         comment: req.body.comment,
-        owner_id: req.user.id
+        userId: req.user.id
     })
         .then(wishlist => res.status(200).json({wishlist}))
         .catch(err => {
@@ -46,7 +46,7 @@ router.post('/upload', validateSession, upload.single('image'), (req, res) => {
 router.get('/allwishlist', (req, res)=>{
     
     Wishlist.findAll({
-        where: {owner_id: req.user.id}
+        where: {userId: req.user.id}
     })
     .then(wishlist => res.status(200).json({
         wishlist: wishlist,
@@ -62,10 +62,10 @@ router.put("/update/:id", validateSession, upload.single('image'), function (req
     const updateWishlist = {
         image: req.file.location,
         comment: req.body.comment,
-        owner_id: req.user.id
+        userId: req.user.id
     };
 
-    const query = { where: { id: req.params.id, owner_id: req.user.id } };
+    const query = { where: { id: req.params.id, userId: req.user.id } };
 
     Wishlist.update(updateWishlist, query)
     .then((wishlist) => res.status(200).json(wishlist))
@@ -76,7 +76,7 @@ router.put("/update/:id", validateSession, upload.single('image'), function (req
 // ******************** (DELETE) Delete a wishlist ******************** //
 router.delete("/delete/:id", validateSession, upload.single('image'), (req, res) => {
     Wishlist.destroy({
-        where: { id: req.params.id, owner_id: req.user.id }
+        where: { id: req.params.id, userId: req.user.id }
     })
     .then(wishlist => res.status(200).json(wishlist))
     .catch(err => res.json({error: err}))

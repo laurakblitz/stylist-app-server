@@ -9,14 +9,15 @@ const Closet = db.define('closet', {
     category: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    owner_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
     }
 });
 
 module.exports = Closet;
+
+    // owner_id: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false
+    // }
 
 // const Closet = db.define('closet', {
 //     category: {

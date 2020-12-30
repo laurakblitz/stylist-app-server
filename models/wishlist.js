@@ -9,14 +9,16 @@ const Wishlist = db.define('wishlist', {
     comment: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    owner_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
     }
 });
 
 module.exports = Wishlist;
+
+
+// owner_id: {
+//     type: DataTypes.INTEGER,
+//     allowNull: false
+// }
 
 // const { STRING } = require("sequelize/types");
 
