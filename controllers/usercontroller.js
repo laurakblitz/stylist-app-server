@@ -4,13 +4,13 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const {authRole} = require('../models/authRole');
+const { authRole } = require('../models/authRole');
 
-const {UniqueConstraintError} = require('sequelize/lib/errors');
+const { UniqueConstraintError } = require('sequelize/lib/errors');
 
 //******************** (POST) Register ********************//
 router.post('/register', async (req, res) => {
-    let {username, email, password, role} = req.body;
+    let { username, email, password, role } = req.body;
 
     try {
         const newUser = await User.create({
@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
             })
         } else {
             res.status(500).json({
-                error: error, 
+                error: error,
                 // error: "Failed to register user."
             })
         }
@@ -39,15 +39,15 @@ router.post('/register', async (req, res) => {
 
 //******************** (POST) Login ********************//
 router.post('/login', async (req, res) => {
-    let {username, password} = req.body;
+    let { username, password } = req.body;
 
     try {
         let loginUser = await User.findOne({
-            where: {username}
+            where: { username }
         })
 
-        if(loginUser && await bcrypt.compare(password, loginUser.password)) {
-            const token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24})
+        if (loginUser && await bcrypt.compare(password, loginUser.password)) {
+            const token = jwt.sign({ id: loginUser.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 })
 
             res.status(200).json({
                 message: 'Login succeeded!',
@@ -67,3 +67,28 @@ router.post('/login', async (req, res) => {
 });
 
 module.exports = router;
+
+
+// router.post('/login', async (req, res) => {
+//     let { username, password } = req.body;
+//     try {
+//         let loginUser = await User.findOne({
+//             where: { username }
+//         })
+//         if (loginUser && await bcrypt.compare(password, loginUser.password)) {
+//             const token = jwt.sign({ id: loginUser.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 });
+//             res.status(200).json({
+//                 message: 'Login was successful!',
+//                 user: loginUser,
+//                 token: token
+//             })
+//             await User.findByIdAndUpdate(user.id, { token })
+//             res.status(200).json({
+//                 data: { username: user.username, role: user.role },
+//                 token
+//             })
+//         }
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error logging in!' })
+//     }
+// });
