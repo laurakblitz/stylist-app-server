@@ -19,6 +19,7 @@ let upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: 'stylistappbucketlb',
+        acl: 'public-read',
         metadata: function (req, file, cb) {
             cb(null, { fieldName: file.fieldname });
         },
@@ -35,7 +36,7 @@ router.post('/upload', validateSession, upload.single('image'), (req, res) => {
         comment: req.body.comment,
         userId: req.user.id
     })
-        .then(wishlist => res.status(200).json({wishlist}))
+        .then(wishlists => res.status(200).json({wishlists}))
         .catch(err => {
             res.status(500).json({error: err})
             console.log(err);
@@ -48,8 +49,8 @@ router.get('/allwishlist', (req, res)=>{
     Wishlist.findAll({
         where: {userId: req.user.id}
     })
-    .then(wishlist => res.status(200).json({
-        wishlist: wishlist,
+    .then(wishlists => res.status(200).json({
+        wishlists: wishlists,
         message: 'Wishlist Retrieved'
     }))
     .catch(err => res.status(500).json({
@@ -68,7 +69,7 @@ router.put("/update/:id", validateSession, upload.single('image'), function (req
     const query = { where: { id: req.params.id, userId: req.user.id } };
 
     Wishlist.update(updateWishlist, query)
-    .then((wishlist) => res.status(200).json(wishlist))
+    .then((wishlists) => res.status(200).json(wishlists))
     .catch((err) => res.status(500).json({ error: err })); 
 
 });
@@ -78,7 +79,7 @@ router.delete("/delete/:id", validateSession, upload.single('image'), (req, res)
     Wishlist.destroy({
         where: { id: req.params.id, userId: req.user.id }
     })
-    .then(wishlist => res.status(200).json(wishlist))
+    .then(wishlists => res.status(200).json(wishlists))
     .catch(err => res.json({error: err}))
 })
 

@@ -9,13 +9,15 @@ const aws = require('aws-sdk');
 let s3 = new aws.S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
     secretAccessKey: process.env.SECRET_ACCESS_KEY,
-    bucket: process.env.BUCKET
+    // region: process.env.REGION,
+    // bucket: process.env.BUCKET
 });
 
 let upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: 'stylistappbucketlb',
+        acl: 'public-read',
         metadata: function (req, file, cb) {
             cb(null, { fieldName: file.fieldname });
         },
@@ -32,7 +34,7 @@ router.post('/upload', validateSession, upload.single('image'), (req, res) => {
         category: req.body.category,
         userId: req.user.id
     })
-        .then(closet => res.status(200).json({ closet }))
+        .then(closets => res.status(200).json({ closets }))
         .catch(err => {
             res.status(500).json({ error: err })
             console.log(err);
@@ -45,8 +47,8 @@ router.get('/allclosetposts', (req, res) => {
     Closet.findAll({
         where: { userId: req.user.id }
     })
-        .then(closet => res.status(200).json({
-            closet: closet,
+        .then(closets => res.status(200).json({
+            closets: closets,
             message: 'All Closet Posts Retrieved'
         }))
         .catch(err => res.status(500).json({
@@ -65,7 +67,7 @@ router.put("/update/:id", validateSession, upload.single('image'), function (req
     const query = { where: { id: req.params.id, userId: req.user.id } };
 
     Closet.update(updateCloset, query)
-    .then((closet) => res.status(200).json(closet))
+    .then((closets) => res.status(200).json(closets))
     .catch((err) => res.status(500).json({ error: err })); 
 
 });
@@ -75,7 +77,7 @@ router.delete("/delete/:id", validateSession, upload.single('image'), (req, res)
     Closet.destroy({
         where: { id: req.params.id, userId: req.user.id }
     })
-        .then(closet => res.status(200).json(closet))
+        .then(closets => res.status(200).json(closets))
         .catch(err => res.json({ error: err }))
 })
 
