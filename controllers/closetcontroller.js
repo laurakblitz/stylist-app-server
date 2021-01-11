@@ -67,18 +67,22 @@ router.put("/update/:id", validateSession, upload.single('image'), function (req
     const query = { where: { id: req.params.id, userId: req.user.id } };
 
     Closet.update(updateCloset, query)
-    .then((closets) => res.status(200).json(closets))
-    .catch((err) => res.status(500).json({ error: err })); 
+        .then((closets) => res.status(200).json(closets))
+        .catch((err) => res.status(500).json({ error: err }));
 
 });
 
 // ******************** (DELETE) Delete closet post ******************** //
 router.delete("/delete/:id", validateSession, upload.single('image'), (req, res) => {
-    Closet.destroy({
-        where: { id: req.params.id, userId: req.user.id }
-    })
-        .then(closets => res.status(200).json(closets))
-        .catch(err => res.json({ error: err }))
+
+    if (req.user.role === 'admin') {
+
+        Closet.destroy({
+            where: { id: req.params.id, userId: req.user.id }
+        })
+            .then(closets => res.status(200).json(closets))
+            .catch(err => res.json({ error: err }))
+    }
 })
 
 module.exports = router;
