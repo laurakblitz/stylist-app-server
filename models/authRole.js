@@ -14,7 +14,7 @@ const authRoles = function () {
 
     ac.grant('admin')
         .extend('user')
-        .deleteAny('user')
+        .deleteAny('closet')
 };
 
 module.exports = authRoles;
