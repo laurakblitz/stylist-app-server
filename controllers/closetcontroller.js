@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Closet = require('../models/closet');
-const validateSession = require('../middleware/validateSession');
+// const validateSession = require('../middleware/validateSession');
 
 const multer = require('multer');
 const multerS3 = require('multer-s3');
@@ -28,7 +28,7 @@ let upload = multer({
 });
 
 // ******************** (POST) Create a closet post ******************** //
-router.post('/upload', validateSession, upload.single('image'), (req, res) => {
+router.post('/upload', /*validateSession,*/ upload.single('image'), (req, res) => {
     Closet.create({
         image: req.file.location,
         category: req.body.category,
@@ -57,7 +57,7 @@ router.get('/allclosetposts', (req, res) => {
 });
 
 // ******************** (PUT) Update closet post ******************** //
-router.put("/update/:id", validateSession, upload.single('image'), function (req, res) {
+router.put("/update/:id", /*validateSession,*/ upload.single('image'), function (req, res) {
     const updateCloset = {
         image: req.file.location,
         category: req.body.category,
@@ -73,7 +73,7 @@ router.put("/update/:id", validateSession, upload.single('image'), function (req
 });
 
 // ******************** (DELETE) Delete closet post ******************** //
-router.delete("/delete/:id", validateSession, upload.single('image'), (req, res) => {
+router.delete("/delete/:id", /*validateSession,*/ upload.single('image'), (req, res) => {
 
     //if (req.user.role === 'admin') {
 
