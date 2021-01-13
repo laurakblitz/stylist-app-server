@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Wishlist = require('../models/wishlist');
-const validateSession = require('../middleware/validateSession');
+// const validateSession = require('../middleware/validateSession');
 
 const multer = require('multer');
 // const path = require('path');
@@ -30,7 +30,7 @@ let upload = multer({
 });
 
 // ******************** (POST) Create a wishlist ******************** //
-router.post('/upload', validateSession, upload.single('image'), (req, res) => {
+router.post('/upload', /*validateSession,*/ upload.single('image'), (req, res) => {
     Wishlist.create({
         image: req.file.location,
         comment: req.body.comment,
@@ -59,7 +59,7 @@ router.get('/allwishlist', (req, res)=>{
 });
 
 // ******************** (PUT) Update wishlist ******************** //
-router.put("/update/:id", validateSession, upload.single('image'), function (req, res) {
+router.put("/update/:id", /*validateSession,*/ upload.single('image'), function (req, res) {
     const updateWishlist = {
         image: req.file.location,
         comment: req.body.comment,
