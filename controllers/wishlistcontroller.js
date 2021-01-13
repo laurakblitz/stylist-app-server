@@ -75,7 +75,7 @@ router.put("/update/:id", /*validateSession,*/ upload.single('image'), function 
 });
 
 // ******************** (DELETE) Delete a wishlist ******************** //
-router.delete("/delete/:id", validateSession, upload.single('image'), (req, res) => {
+router.delete("/delete/:id", /*validateSession,*/ upload.single('image'), (req, res) => {
     Wishlist.destroy({
         where: { id: req.params.id, userId: req.user.id }
     })
