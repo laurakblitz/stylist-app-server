@@ -5,12 +5,12 @@ module.exports = (req, res, next) => {
     if (req.method == 'OPTIONS') {
         next(); 
     } else {
-        let token = req.headers.authorization;
-        console.log(token);
-        if (!token) {
+        let sessionToken = req.headers.authorization;
+        console.log(sessionToken);
+        if (!sessionToken) {
             res.status(403).send({ auth: false, message: "No token provided" });
         } else {
-            jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            jwt.verify(sessionToken, process.env.JWT_SECRET, (err, decoded) => {
                 console.log(decoded)
                 if (decoded) {
                     User.findOne({ where: { id: decoded.id } }).then(user => {
@@ -30,8 +30,6 @@ module.exports = (req, res, next) => {
         }
     }
 }
-
-module.exports = validateSession;
 
         // const jwt = require('jsonwebtoken');
         // const { User } = require('../models');
