@@ -1,10 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const db = require('./db');
+const validateSession = require('../server/middleware/validateSession');
 const app = express();
-// const validateSession = require('./middleware/validateSession');
 
-const controllers = require('./controllers');
+
+// const controllers = require('./controllers');
 
 const user = require('./controllers/usercontroller');
 
@@ -16,11 +17,11 @@ app.use(require('./middleware/headers'));
 
 app.use(express.json());
 
+// const validateSession = require('./middleware/validateSession');
+
 app.use('/user', user);
 
 // app.use(require('./middleware/validateSession'));
-
-const validateSession = require('./middleware/validateSession');
 app.use('/closet', validateSession, closet);
 app.use('/wishlist', validateSession, wishlist);
 
