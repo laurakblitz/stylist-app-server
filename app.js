@@ -18,6 +18,7 @@ app.use(express.json());
 
 app.use('/user', user);
 
+app.use(require('./middleware/validateSession'));
 // const validateSession = require('./middleware/validateSession');
 app.use('/closet', validateSession, closet);
 app.use('/wishlist', validateSession, wishlist);
