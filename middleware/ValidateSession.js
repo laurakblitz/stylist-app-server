@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-module.exports = (req, res, next) => {
+const validateSession = (req, res, next) => {
     if (req.method == 'OPTIONS') {
         next(); 
     } else {
@@ -30,6 +30,8 @@ module.exports = (req, res, next) => {
         }
     }
 }
+
+module.exports = validateSession;
 
         // const jwt = require('jsonwebtoken');
         // const { User } = require('../models');
