@@ -4,16 +4,18 @@ const express = require('express');
 const db = require('./db');
 const app = express();
 
+app.use(express.json());
+
+const validateSession = require('./middleware/validateSession');
 app.use(require('./middleware/headers'));
 
-app.use(express.json());
+// app.use(express.json());
 
 const controllers = require('./controllers');
 
-const validateSession = require('./middleware/validateSession');
+// const validateSession = require('./middleware/validateSession');
 
 app.use('/user', controllers.usercontroller);
-
 app.use('/closet', validateSession, controllers.closetcontroller);
 app.use('/wishlist', validateSession, controllers.wishlistcontroller);
 
