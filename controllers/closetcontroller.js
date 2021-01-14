@@ -9,8 +9,8 @@ const aws = require('aws-sdk');
 let s3 = new aws.S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
     secretAccessKey: process.env.SECRET_ACCESS_KEY,
-    // region: process.env.REGION,
-    // bucket: process.env.BUCKET
+    region: process.env.REGION,
+    bucket: process.env.BUCKET
 });
 
 let upload = multer({
