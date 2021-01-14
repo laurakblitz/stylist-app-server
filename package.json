@@ -5,11 +5,14 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
   "dependencies": {
     "accesscontrol": "^2.2.1",
     "aws-sdk": "^2.827.0",
@@ -27,8 +30,5 @@
     "sequelize": "^6.3.5",
     "serve": "^11.3.2",
     "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.7"
   }
 }
