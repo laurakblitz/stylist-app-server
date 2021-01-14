@@ -4,9 +4,9 @@ const db = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
 });
 
-// db.authenticate()
-//     .then(() => console.log('database is connected'))
-//     .catch((err => console.log(err)))
+db.authenticate()
+    .then(() => console.log('database is connected'))
+    .catch((err => console.log(err)))
 
 module.exports = db;
 
