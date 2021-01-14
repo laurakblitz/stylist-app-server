@@ -1,26 +1,21 @@
 require('dotenv').config();
+
 const express = require('express');
 const db = require('./db');
 const app = express();
 
 app.use(require('./middleware/headers'));
 
-// const controllers = require('./controllers');
-
-const user = require('./controllers/usercontroller');
-
-const closet = require('./controllers/closetcontroller');
-
-const wishlist = require('./controllers/wishlistcontroller');
-
 app.use(express.json());
+
+const controllers = require('./controllers');
 
 const validateSession = require('./middleware/validateSession');
 
-app.use('/user', user);
+app.use('/user', controllers.usercontroller);
 
-app.use('/closet', validateSession, closet);
-app.use('/wishlist', validateSession, wishlist);
+app.use('/closet', validateSession, controllers.closetcontroller);
+app.use('/wishlist', validateSession, controllers.wishlistcontroller);
 
 db.authenticate()
     .then(() => db.sync()) // => {force: true}
@@ -31,11 +26,3 @@ db.authenticate()
         console.log("[Server:] Server Crashed");
         console.error(err);
     });
-
-// app.use('/test', function (req, res) {
-//     res.send('This is a message from the test endpoint on the server!')
-// })
-
-// app.listen(3000, function () {
-//     console.log('App is listening on port 3000');
-// })
