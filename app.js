@@ -6,8 +6,10 @@ const app = express();
 
 app.use(express.json());
 
-const validateSession = require('./middleware/validateSession');
+
 app.use(require('./middleware/headers'));
+
+const validateSession = require('./middleware/validateSession');
 
 // app.use(express.json());
 
