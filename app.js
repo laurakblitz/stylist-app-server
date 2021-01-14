@@ -1,25 +1,23 @@
 require('dotenv').config();
-
 const express = require('express');
 const db = require('./db');
 const app = express();
 
-app.use(express.json());
+const controllers = require('./controllers');
 
+app.use(express.json());
 
 app.use(require('./middleware/headers'));
 
-const validateSession = require('./middleware/validateSession');
-
 // app.use(express.json());
 
-const controllers = require('./controllers');
+// const controllers = require('./controllers');
 
 // const validateSession = require('./middleware/validateSession');
 
 app.use('/user', controllers.usercontroller);
-app.use('/closet', validateSession, controllers.closetcontroller);
-app.use('/wishlist', validateSession, controllers.wishlistcontroller);
+app.use('/closet', controllers.closetcontroller);
+app.use('/wishlist', controllers.wishlistcontroller);
 
 db.authenticate()
     .then(() => db.sync()) // => {force: true}

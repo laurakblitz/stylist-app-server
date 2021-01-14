@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Wishlist = require('../models/wishlist');
-// const validateSession = require('../middleware/validateSession');
+const validateSession = require('../middleware/validateSession');
 
 const multer = require('multer');
 // const path = require('path');
@@ -30,7 +30,8 @@ let upload = multer({
 });
 
 // ******************** (POST) Create a wishlist ******************** //
-router.post('/upload', /*validateSession,*/ upload.single('image'), (req, res) => {
+router.post('/upload', validateSession, upload.single('image'), (req, res) => {
+
     Wishlist.create({
         image: req.file.location,
         comment: req.body.comment,
@@ -44,7 +45,7 @@ router.post('/upload', /*validateSession,*/ upload.single('image'), (req, res) =
 });
 
 // ******************** (GET) Get all wishlists ******************** //
-router.get('/allwishlist', (req, res)=>{
+router.get('/allwishlist', validateSession, (req, res)=>{
     
     Wishlist.findAll({
         where: {userId: req.user.id}
@@ -59,7 +60,8 @@ router.get('/allwishlist', (req, res)=>{
 });
 
 // ******************** (PUT) Update wishlist ******************** //
-router.put("/update/:id", /*validateSession,*/ upload.single('image'), function (req, res) {
+router.put('/update/:id', validateSession, upload.single('image'), function (req, res) {
+
     const updateWishlist = {
         image: req.file.location,
         comment: req.body.comment,
@@ -75,7 +77,8 @@ router.put("/update/:id", /*validateSession,*/ upload.single('image'), function 
 });
 
 // ******************** (DELETE) Delete a wishlist ******************** //
-router.delete("/delete/:id", /*validateSession,*/ upload.single('image'), (req, res) => {
+router.delete('/delete/:id', validateSession, upload.single('image'), (req, res) => {
+
     Wishlist.destroy({
         where: { id: req.params.id, userId: req.user.id }
     })
