@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const db = require('./db');
-const validateSession = require('../server/middleware/validateSession');
 const app = express();
 
+app.use(require('./middleware/headers'));
 
 // const controllers = require('./controllers');
 
@@ -13,11 +13,9 @@ const closet = require('./controllers/closetcontroller');
 
 const wishlist = require('./controllers/wishlistcontroller');
 
-app.use(require('./middleware/headers'));
-
 app.use(express.json());
 
-// const validateSession = require('./middleware/validateSession');
+const validateSession = require('./middleware/validateSession');
 
 app.use('/user', user);
 
