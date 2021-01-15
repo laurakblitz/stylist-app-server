@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/user');
+const validateSession = require('../middleware/validateSession');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -7,7 +8,8 @@ const jwt = require('jsonwebtoken');
 const { authRole } = require('../models/authRole');
 
 const { UniqueConstraintError } = require('sequelize/lib/errors');
-
+const { sequelize } = require('../models/user');
+const { Op } = require('sequelize');
 
 //******************** (POST) Register ********************//
 router.post('/register', async (req, res) => {
@@ -18,7 +20,8 @@ router.post('/register', async (req, res) => {
             username,
             email,
             password: bcrypt.hashSync(password, 13),
-            role: role || 'user'
+            // role: role || 'user',
+            role,
         })
         res.status(201).json({
             message: "User registered!",
@@ -53,7 +56,7 @@ router.post('/login', async (req, res) => {
             res.status(200).json({
                 message: 'Login succeeded!',
                 user: loginUser,
-                token
+                token,
             })
         } else {
             res.status(401).json({
@@ -67,6 +70,27 @@ router.post('/login', async (req, res) => {
     }
 });
 
+//******************** (GET) Logged-In User ********************//
+router.get('/', validateSession, async (req, res) => {
+    const user = await User.findOne({ where: {id: req.user.id} });
 
+    res.status(200).json({
+        user: user
+    })
+});
+
+//******************** (GET) List of userIds and usernames ********************//
+router.get('/usernames', validateSession, async (req, res) => {
+    const usernames = await User.findAll(
+        {
+            attributes: ['id', 'username'],
+            where: { id: { [Op.not]: req.user.id } }
+        }
+    );
+
+    res.status(200).json({
+        usernames: usernames,
+    })
+});
 
 module.exports = router;
