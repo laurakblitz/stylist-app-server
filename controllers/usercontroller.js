@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/user');
-const _headers = require('../middleware/headers');
-console.log(_headers);
+
 const validateSession = require('../middleware/validateSession.js');
 
 const bcrypt = require('bcryptjs');
