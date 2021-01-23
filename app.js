@@ -19,6 +19,7 @@ app.use('/user', controllers.usercontroller);
 app.use('/closet', controllers.closetcontroller);
 app.use('/wishlist', controllers.wishlistcontroller);
 
+// comment
 db.authenticate()
     .then(() => db.sync()) // => {force: true}
     .then(() => {
