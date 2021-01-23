@@ -1,16 +1,13 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const db = require('./db');
 const app = express();
 const controllers = require('./controllers');
 
+app.use(cors());
 app.use(express.json());
-
 app.use(require('./middleware/headers'));
-
-// app.use(express.json());
-
-// const controllers = require('./controllers');
 
 app.use('/user', controllers.usercontroller);
 app.use('/closet', controllers.closetcontroller);
