@@ -42,7 +42,7 @@ router.post('/upload', validateSession, upload.single('image'), (req, res) => {
 });
 
 // ******************** (GET) Get all closet posts ******************** //
-router.get('/allcloset', validateSession, (req, res) => {
+router.get('/allclosetposts', validateSession, (req, res) => {
 
     Closet.findAll({
         where: { userId: req.user.id }
