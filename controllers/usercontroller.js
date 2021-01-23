@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/user');
 
-const validateSession = require('../middleware/validateSession');
+const {validateSession} = require('../middleware/validateSession');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
