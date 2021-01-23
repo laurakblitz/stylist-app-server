@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const db = require('./db');
 const app = express();
-const testValidateSession = require('./middleware/testValidateSession');
 const controllers = require('./controllers');
 
 app.use(express.json());

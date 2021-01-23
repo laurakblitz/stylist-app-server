@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Wishlist = require('../models/wishlist');
-const validateSession = require('../middleware/validateSession');
+const validateSession = require('../middleware/ValidateSession');
 
 const multer = require('multer');
 // const path = require('path');

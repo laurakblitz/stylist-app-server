@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Closet = require('../models/closet');
-const validateSession = require('../middleware/validateSession');
+const validateSession = require('../middleware/ValidateSession');
 
 const multer = require('multer');
 const multerS3 = require('multer-s3');
